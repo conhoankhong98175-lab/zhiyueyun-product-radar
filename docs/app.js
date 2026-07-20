@@ -1,5 +1,6 @@
-import { readCsv, buildDashboard } from './nlp-core.js';
+import { readCsv, buildDashboard } from './nlp-core.js?v=20260720.4';
 
+const ASSET_VERSION = '20260720.4';
 let data;
 let activeView = 'overview';
 let documents = { readme: '', solution: '', problem: '', aiSolution: '', workflow: '' };
@@ -13,12 +14,12 @@ const sentimentBadge = (s) => badge(s, s === '负面' ? 'red' : s === '正面' ?
 
 async function load() {
   const [res, readme, solution, problem, aiSolution, workflow] = await Promise.all([
-    fetch('./data/dashboard.json'),
-    fetch('./README.md').then((r) => r.text()),
-    fetch('./SOLUTION.md').then((r) => r.text()),
-    fetch('./PROBLEM_DEFINITION.md').then((r) => r.text()),
-    fetch('./AI_SOLUTION.md').then((r) => r.text()),
-    fetch('./WORKFLOW.md').then((r) => r.text())
+    fetch(`./data/dashboard.json?v=${ASSET_VERSION}`, { cache: 'no-store' }),
+    fetch(`./README.md?v=${ASSET_VERSION}`, { cache: 'no-store' }).then((r) => r.text()),
+    fetch(`./SOLUTION.md?v=${ASSET_VERSION}`, { cache: 'no-store' }).then((r) => r.text()),
+    fetch(`./PROBLEM_DEFINITION.md?v=${ASSET_VERSION}`, { cache: 'no-store' }).then((r) => r.text()),
+    fetch(`./AI_SOLUTION.md?v=${ASSET_VERSION}`, { cache: 'no-store' }).then((r) => r.text()),
+    fetch(`./WORKFLOW.md?v=${ASSET_VERSION}`, { cache: 'no-store' }).then((r) => r.text())
   ]);
   data = await res.json();
   documents = { readme, solution, problem, aiSolution, workflow };
@@ -63,7 +64,8 @@ document.querySelector('#csv-input').addEventListener('change', async (e) => {
 
 function render() {
   const renders = { overview: renderOverview, clusters: renderClusters, feedback: renderFeedback, 'auto-replies': renderAutoReplies, actions: renderActions, evaluation: renderEvaluation, readme: () => renderDocument(documents.readme), solution: () => renderDocument(documents.solution), problem: () => renderDocument(documents.problem), 'ai-solution': () => renderDocument(documents.aiSolution), workflow: () => renderDocument(documents.workflow) };
-  view.innerHTML = renders[activeView]();
+  const renderView = renders[activeView] || renderOverview;
+  view.innerHTML = renderView();
   bindViewEvents();
 }
 
