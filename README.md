@@ -2,6 +2,8 @@
 
 一个完全基于本地 CSV 的反馈智能分诊与产品洞察网页。项目不上传数据、不依赖数据库，也不需要安装第三方包。
 
+在线演示：[智阅云产品雷达](https://conhoankhong98175-lab.github.io/zhiyueyun-product-radar/)
+
 ## 快速运行
 
 ```powershell
