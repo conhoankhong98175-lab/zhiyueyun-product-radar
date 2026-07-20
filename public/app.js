@@ -32,7 +32,7 @@ function setMeta() {
   document.querySelector('#updated').textContent = `更新于 ${new Date(data.generatedAt).toLocaleString('zh-CN', { hour12: false })}`;
 }
 
-const titles = { overview: '产品洞察总览', clusters: '共性问题聚类', feedback: '反馈明细与分诊', actions: '行动转化中心', evaluation: '模型质量评估', readme: '项目说明', solution: '输入—处理—输出完整方案', problem: '问题定义', 'ai-solution': 'AI Solution', workflow: 'Workflow' };
+const titles = { overview: '产品洞察总览', clusters: '共性问题聚类', feedback: '反馈明细与分诊', 'auto-replies': '自动回复评论', actions: '行动转化中心', evaluation: '模型质量评估', readme: '项目说明', solution: '输入—处理—输出完整方案', problem: '问题定义', 'ai-solution': 'AI Solution', workflow: 'Workflow' };
 document.querySelector('#nav').addEventListener('click', (e) => {
   const button = e.target.closest('[data-view]');
   if (!button) return;
@@ -62,7 +62,7 @@ document.querySelector('#csv-input').addEventListener('change', async (e) => {
 });
 
 function render() {
-  const renders = { overview: renderOverview, clusters: renderClusters, feedback: renderFeedback, actions: renderActions, evaluation: renderEvaluation, readme: () => renderDocument(documents.readme), solution: () => renderDocument(documents.solution), problem: () => renderDocument(documents.problem), 'ai-solution': () => renderDocument(documents.aiSolution), workflow: () => renderDocument(documents.workflow) };
+  const renders = { overview: renderOverview, clusters: renderClusters, feedback: renderFeedback, 'auto-replies': renderAutoReplies, actions: renderActions, evaluation: renderEvaluation, readme: () => renderDocument(documents.readme), solution: () => renderDocument(documents.solution), problem: () => renderDocument(documents.problem), 'ai-solution': () => renderDocument(documents.aiSolution), workflow: () => renderDocument(documents.workflow) };
   view.innerHTML = renders[activeView]();
   bindViewEvents();
 }
@@ -116,6 +116,31 @@ function renderFeedback() {
 
 function feedbackRows(rows) {
   return rows.map((r) => `<tr data-topic="${esc(r.topic)}" data-sentiment="${r.sentiment}" data-search="${esc(`${r.author} ${r.text}`.toLowerCase())}"><td>${esc(r.channel)}<br><small>${esc(r.author)}</small></td><td class="text-cell">${esc(r.text)}</td><td>${badge(r.feedbackType, r.feedbackType.includes('问题') ? 'red' : r.feedbackType === '功能需求' ? 'blue' : '')}<br><small>${esc(r.topic)}</small></td><td>${sentimentBadge(r.sentiment)}</td><td>${r.signal.toFixed(1)}</td><td>${esc(r.date)}</td></tr>`).join('');
+}
+
+const AUTO_REPLY_SAMPLES = [
+  { id: 'RV-0001', risk: '体验风险', reply: '您好，抱歉频繁弹窗影响了您的使用体验。我们已记录您对弹窗数量和关闭体验的反馈，并会同步产品团队评估展示频次。感谢您用幽默的方式指出问题。' },
+  { id: 'RV-0002', risk: '计费咨询', reply: '您好，感谢反馈。智阅云个人版为29元/月，包含每月1500页额度；轻度使用也可选择100页/9.9元的加油包。我们也会持续评估不同使用频率用户的计费需求。' },
+  { id: 'RV-0013', risk: '开发体验', reply: '您好，HTTP 429表示触发调用限流：免费版为2 QPS，企业版默认10 QPS。关于Retry-After和重试策略提示不够明确的问题，我们已记录并转交开放平台团队评估。' },
+  { id: 'RV-0015', risk: '财务高风险', reply: '您好，抱歉给您带来风险。印章覆盖金额区域时可能出现误识别，请先人工核对价税合计等金额字段。我们已将金额一致性校验和异常提醒作为高优先级问题跟进。' },
+  { id: 'RV-0020', risk: '交付风险', reply: '您好，复杂合并单元格目前可能出现结构拆分或列错位。建议暂时对导出结果进行复核；如方便，请通过客服提交原表和导出文件，帮助我们补充回归样本。' },
+  { id: 'RV-0021', risk: '稳定性', reply: '您好，安卓14拍照闪退问题已在v3.8.2修复，请升级到最新版本后重试。如仍出现闪退，请提供设备型号和系统版本，我们会继续定位。' },
+  { id: 'RV-0032', risk: '服务体验', reply: '您好，抱歉此前回复没有解决您的实际问题。请提供对应工单号或问题发生时间，我们会补充核查进展并给出更明确的处理说明。' },
+  { id: 'RV-0053', risk: '任务失败', reply: '您好，抱歉批量上传失败影响了使用。正式修复完成前，建议将大批次拆分为每批20个文件以内；我们已将该问题交由平台研发持续跟进。' },
+  { id: 'RV-0060', risk: '产品体验', reply: '您好，报错提示不够易懂确实会增加排查成本。建议先记录具体错误码并联系客服，我们也已将错误提示中文化和解决建议补充列为体验优化项。' },
+  { id: 'RV-0105', risk: '数据认知', reply: '您好，文件与识别结果默认保留90天，到期自动删除，也可在识别历史中手动删除。我们已记录您对到期提醒的建议，重要资料请及时导出留存。' }
+];
+
+function renderAutoReplies() {
+  const records = new Map(data.records.map((r) => [r.id, r]));
+  const samples = AUTO_REPLY_SAMPLES.map((sample) => ({ ...sample, record: records.get(sample.id) })).filter((x) => x.record);
+  return `<div class="reply-intro"><div><h2>评论回复草稿</h2><p>选取10条典型应用市场评论，展示“识别—生成—人工确认”的静态效果。所有草稿均未自动发送。</p></div><div class="reply-summary"><span><b>${samples.length}</b> 条草稿</span><span><b>${samples.filter((x) => /高风险|交付风险|任务失败/.test(x.risk)).length}</b> 条重点审核</span><span><b>100%</b> 人工确认</span></div></div><div class="auto-reply-grid">${samples.map((x, i) => replyCard(x, i)).join('')}</div>`;
+}
+
+function replyCard({ record: r, reply, risk }, index) {
+  const stars = r.rating ? `${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}` : '无星级';
+  const riskClass = /高风险|交付风险|任务失败/.test(risk) ? 'red' : /稳定性|开发体验/.test(risk) ? 'amber' : 'blue';
+  return `<article class="card auto-reply-card"><div class="reply-card-head"><span class="reply-index">${String(index + 1).padStart(2, '0')}</span><div><b>${esc(r.author)}</b><small>${esc(r.channel)} · ${esc(r.date)}</small></div><span class="review-stars" aria-label="${r.rating || 0}星">${stars}</span></div><div class="review-text">“${esc(r.text)}”</div><div class="reply-tags">${sentimentBadge(r.sentiment)} ${badge(r.topic, 'blue')} ${badge(risk, riskClass)}</div><div class="ai-reply"><div class="ai-reply-label"><span>✦ AI回复草稿</span><span>${Math.round(r.topicConfidence * 100)}% 主题置信度</span></div><p>${esc(reply)}</p></div><div class="reply-card-foot"><span class="approval-dot"></span><span>待客服人工确认</span><span class="reply-policy">知识库约束 · 不承诺时间</span></div></article>`;
 }
 
 function renderActions() {
