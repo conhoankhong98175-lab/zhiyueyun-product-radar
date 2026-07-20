@@ -1,0 +1,12 @@
+{
+  "name": "zhiyueyun-product-radar",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:data": "node scripts/process-data.mjs",
+    "build": "node scripts/process-data.mjs && node scripts/build-site.mjs",
+    "start": "node scripts/server.mjs",
+    "test": "node --test"
+  }
+}

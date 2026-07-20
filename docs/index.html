@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="智阅云多渠道反馈产品雷达">
+  <title>智阅云 · 产品雷达</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./documents.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">智</span><div><b>智阅云</b><small>PRODUCT RADAR</small></div></div>
+      <nav id="nav" aria-label="主导航">
+        <button class="nav-item active" data-view="overview"><span>⌁</span>洞察总览</button>
+        <button class="nav-item" data-view="clusters"><span>◉</span>问题聚类</button>
+        <button class="nav-item" data-view="feedback"><span>≡</span>反馈明细</button>
+        <button class="nav-item" data-view="actions"><span>✓</span>行动中心</button>
+        <button class="nav-item" data-view="evaluation"><span>◇</span>模型评估</button>
+        <button class="nav-item" data-view="readme"><span>▣</span>项目说明</button>
+        <button class="nav-item" data-view="solution"><span>⌘</span>完整方案</button>
+      </nav>
+      <div class="side-note"><span class="status-dot"></span><div><b>本地规则引擎</b><small>数据仅在本机处理</small></div></div>
+    </aside>
+    <main>
+      <header class="topbar">
+        <div><p class="eyebrow" id="period">数据观察期</p><h1 id="page-title">产品洞察总览</h1></div>
+        <div class="top-actions">
+          <span class="updated" id="updated"></span>
+          <label class="import-button" for="csv-input">＋ 导入 CSV</label>
+          <input id="csv-input" type="file" accept=".csv,text/csv" multiple hidden>
+        </div>
+      </header>
+      <section id="notice" class="notice hidden" role="status"></section>
+      <div id="view" class="content" aria-live="polite"></div>
+    </main>
+  </div>
+  <dialog id="detail-dialog"><button class="dialog-close" aria-label="关闭">×</button><div id="dialog-content"></div></dialog>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
