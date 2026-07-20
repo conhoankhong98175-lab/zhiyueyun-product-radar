@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="660" viewBox="0 0 1200 660" role="img" aria-labelledby="title desc">
+  <title id="title">智阅云AI反馈分诊闭环</title>
+  <desc id="desc">从六类CSV输入，经数据治理、语义理解、信号聚合、决策排序，输出客服回复、Bug和产品需求，并通过人工审核和效果监控形成闭环。</desc>
+  <style>
+    :root{--bg:#f4f7fb;--card:#fff;--ink:#162337;--muted:#64748b;--line:#dce4ee;--blue:#176bdf;--blue2:#eaf2ff;--green:#168463;--green2:#e9f7f2;--amber:#bd7410;--amber2:#fff5df;--red:#c84747;--red2:#fff0f0}
+    text{font-family:"Microsoft YaHei","PingFang SC",sans-serif;fill:var(--ink)}.muted{fill:var(--muted)}.title{font-size:26px;font-weight:700}.subtitle{font-size:14px}.stage{font-size:16px;font-weight:700}.item{font-size:13px}.small{font-size:12px}.card{fill:var(--card);stroke:var(--line);stroke-width:1.5}.arrow{stroke:var(--blue);stroke-width:3;fill:none;marker-end:url(#arrow)}.loop{stroke:var(--green);stroke-width:3;fill:none;stroke-dasharray:7 6;marker-end:url(#arrow-green)}
+  </style>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#176bdf"/></marker><marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#168463"/></marker></defs>
+  <rect width="1200" height="660" rx="20" fill="var(--bg)"/>
+  <text x="48" y="56" class="title">智阅云反馈智能分诊台</text>
+  <text x="48" y="82" class="subtitle muted">把高噪声用户声音转成有证据、可排序、可执行的产品行动</text>
+
+  <g transform="translate(48 122)">
+    <rect class="card" width="190" height="330" rx="14"/>
+    <rect width="190" height="54" rx="14" fill="var(--blue2)"/><rect y="40" width="190" height="14" fill="var(--blue2)"/>
+    <text x="20" y="34" class="stage">① CSV输入</text>
+    <text x="20" y="87" class="item">应用市场评论</text><text x="20" y="121" class="item">客服问题反馈</text><text x="20" y="155" class="item">销售需求登记</text><text x="20" y="189" class="item">需求池</text><text x="20" y="223" class="item">角色表</text><text x="20" y="257" class="item">人工标注集</text>
+    <rect x="18" y="282" width="154" height="30" rx="15" fill="var(--blue2)"/><text x="95" y="302" text-anchor="middle" class="small" fill="#176bdf">数据不离开本机</text>
+  </g>
+
+  <path class="arrow" d="M248 287H278"/>
+  <g transform="translate(288 122)">
+    <rect class="card" width="190" height="330" rx="14"/>
+    <rect width="190" height="54" rx="14" fill="var(--blue2)"/><rect y="40" width="190" height="14" fill="var(--blue2)"/>
+    <text x="20" y="34" class="stage">② AI理解</text>
+    <text x="20" y="88" class="item">字段修复与标准化</text><text x="20" y="126" class="item">噪声过滤</text><text x="20" y="164" class="item">反讽情感识别</text><text x="20" y="202" class="item">16类业务主题</text><text x="20" y="240" class="item">咨询 / Bug / 需求</text>
+    <rect x="18" y="276" width="154" height="38" rx="8" fill="var(--amber2)"/><text x="95" y="292" text-anchor="middle" class="small">印章 · 表格 · 429</text><text x="95" y="307" text-anchor="middle" class="small">HEIC · 批量超时</text>
+  </g>
+
+  <path class="arrow" d="M488 287H518"/>
+  <g transform="translate(528 122)">
+    <rect class="card" width="190" height="330" rx="14"/>
+    <rect width="190" height="54" rx="14" fill="var(--blue2)"/><rect y="40" width="190" height="14" fill="var(--blue2)"/>
+    <text x="20" y="34" class="stage">③ 信号聚合</text>
+    <text x="20" y="88" class="item">同义反馈归并</text><text x="20" y="126" class="item">跨渠道主题聚类</text><text x="20" y="164" class="item">代表证据提取</text><text x="20" y="202" class="item">趋势与影响面</text><text x="20" y="240" class="item">需求池语义查重</text>
+    <rect x="18" y="276" width="154" height="38" rx="8" fill="var(--red2)"/><text x="95" y="292" text-anchor="middle" class="small">8600 → 3600</text><text x="95" y="307" text-anchor="middle" class="small">归入“印章遮挡”</text>
+  </g>
+
+  <path class="arrow" d="M728 287H758"/>
+  <g transform="translate(768 122)">
+    <rect class="card" width="190" height="330" rx="14"/>
+    <rect width="190" height="54" rx="14" fill="var(--blue2)"/><rect y="40" width="190" height="14" fill="var(--blue2)"/>
+    <text x="20" y="34" class="stage">④ 决策排序</text>
+    <text x="20" y="88" class="item">28% 反馈规模</text><text x="20" y="122" class="item">22% 负面强度</text><text x="20" y="156" class="item">18% 业务严重度</text><text x="20" y="190" class="item">12% 影响面</text><text x="20" y="224" class="item">10% 趋势</text><text x="20" y="258" class="item">10% 客户价值</text>
+    <rect x="18" y="282" width="154" height="30" rx="15" fill="var(--blue2)"/><text x="95" y="302" text-anchor="middle" class="small">Top 3 + 排序依据</text>
+  </g>
+
+  <path class="arrow" d="M968 287H998"/>
+  <g transform="translate(1008 122)">
+    <rect class="card" width="144" height="330" rx="14"/>
+    <rect width="144" height="54" rx="14" fill="var(--green2)"/><rect y="40" width="144" height="14" fill="var(--green2)"/>
+    <text x="18" y="34" class="stage">⑤ 行动</text>
+    <rect x="16" y="78" width="112" height="48" rx="9" fill="var(--green2)"/><text x="72" y="107" text-anchor="middle" class="item">回复草稿</text>
+    <rect x="16" y="142" width="112" height="48" rx="9" fill="var(--red2)"/><text x="72" y="171" text-anchor="middle" class="item">Bug工单</text>
+    <rect x="16" y="206" width="112" height="48" rx="9" fill="var(--amber2)"/><text x="72" y="235" text-anchor="middle" class="item">关联需求</text>
+    <rect x="16" y="270" width="112" height="42" rx="9" fill="var(--blue2)"/><text x="72" y="296" text-anchor="middle" class="item">候选需求</text>
+  </g>
+
+  <rect x="288" y="500" width="670" height="76" rx="14" fill="var(--green2)" stroke="#b9dfd2"/>
+  <text x="314" y="530" class="stage">人工审核门</text><text x="314" y="554" class="item">财务金额 · 隐私安全 · VIP续约 · 上线承诺 · 低置信度 → 必须人工确认</text>
+  <path class="loop" d="M1080 462V610H380V586"/>
+  <text x="713" y="633" text-anchor="middle" class="subtitle" fill="#168463">效果监控与人工修正回流：新数据 → 复发检测 → 词库/模型迭代</text>
+</svg>

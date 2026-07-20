@@ -42,3 +42,9 @@ npm start           # 启动本地网页
 ```
 
 详细设计见 [SOLUTION.md](./SOLUTION.md)。
+
+## 补充交付文档
+
+- [问题定义](./PROBLEM_DEFINITION.md)
+- [AI Solution（含信息图）](./AI_SOLUTION.md)
+- [Workflow](./WORKFLOW.md)

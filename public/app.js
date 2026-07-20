@@ -2,7 +2,7 @@ import { readCsv, buildDashboard } from './nlp-core.js';
 
 let data;
 let activeView = 'overview';
-let documents = { readme: '', solution: '' };
+let documents = { readme: '', solution: '', problem: '', aiSolution: '', workflow: '' };
 const view = document.querySelector('#view');
 const dialog = document.querySelector('#detail-dialog');
 const fmt = new Intl.NumberFormat('zh-CN');
@@ -12,13 +12,16 @@ const badge = (text, cls = '') => `<span class="badge ${cls}">${esc(text)}</span
 const sentimentBadge = (s) => badge(s, s === '负面' ? 'red' : s === '正面' ? 'green' : '');
 
 async function load() {
-  const [res, readme, solution] = await Promise.all([
+  const [res, readme, solution, problem, aiSolution, workflow] = await Promise.all([
     fetch('./data/dashboard.json'),
     fetch('./README.md').then((r) => r.text()),
-    fetch('./SOLUTION.md').then((r) => r.text())
+    fetch('./SOLUTION.md').then((r) => r.text()),
+    fetch('./PROBLEM_DEFINITION.md').then((r) => r.text()),
+    fetch('./AI_SOLUTION.md').then((r) => r.text()),
+    fetch('./WORKFLOW.md').then((r) => r.text())
   ]);
   data = await res.json();
-  documents = { readme, solution };
+  documents = { readme, solution, problem, aiSolution, workflow };
   setMeta();
   render();
 }
@@ -29,7 +32,7 @@ function setMeta() {
   document.querySelector('#updated').textContent = `更新于 ${new Date(data.generatedAt).toLocaleString('zh-CN', { hour12: false })}`;
 }
 
-const titles = { overview: '产品洞察总览', clusters: '共性问题聚类', feedback: '反馈明细与分诊', actions: '行动转化中心', evaluation: '模型质量评估', readme: '项目说明', solution: '输入—处理—输出完整方案' };
+const titles = { overview: '产品洞察总览', clusters: '共性问题聚类', feedback: '反馈明细与分诊', actions: '行动转化中心', evaluation: '模型质量评估', readme: '项目说明', solution: '输入—处理—输出完整方案', problem: '问题定义', 'ai-solution': 'AI Solution', workflow: 'Workflow' };
 document.querySelector('#nav').addEventListener('click', (e) => {
   const button = e.target.closest('[data-view]');
   if (!button) return;
@@ -59,7 +62,7 @@ document.querySelector('#csv-input').addEventListener('change', async (e) => {
 });
 
 function render() {
-  const renders = { overview: renderOverview, clusters: renderClusters, feedback: renderFeedback, actions: renderActions, evaluation: renderEvaluation, readme: () => renderDocument(documents.readme), solution: () => renderDocument(documents.solution) };
+  const renders = { overview: renderOverview, clusters: renderClusters, feedback: renderFeedback, actions: renderActions, evaluation: renderEvaluation, readme: () => renderDocument(documents.readme), solution: () => renderDocument(documents.solution), problem: () => renderDocument(documents.problem), 'ai-solution': () => renderDocument(documents.aiSolution), workflow: () => renderDocument(documents.workflow) };
   view.innerHTML = renders[activeView]();
   bindViewEvents();
 }
@@ -137,6 +140,7 @@ function renderDocument(markdown) {
   const lines = String(markdown || '').split(/\r?\n/);
   let html = '', inCode = false, inTable = false, inList = false;
   const inline = (s) => esc(s)
+    .replace(/!\[([^\]]+)\]\(([^)]+)\)/g, '<img class="doc-image" src="$2" alt="$1">')
     .replace(/`([^`]+)`/g, '<code>$1</code>')
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer">$1</a>');

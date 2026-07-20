@@ -9,6 +9,7 @@
 .document pre{background:var(--nav);color:#e9f1fb;border-radius:8px;padding:16px 18px;overflow:auto}
 .document pre code{background:transparent;color:inherit;padding:0}
 .document a{color:var(--blue)}
+.document .doc-image{display:block;width:100%;height:auto;margin:20px 0 26px;border:1px solid var(--line);border-radius:10px;background:#f4f7fb}
 .doc-table{overflow-x:auto;margin:14px 0 22px;border:1px solid var(--line);border-radius:8px}
 .doc-table table{min-width:620px}
 .doc-table th{background:#f5f8fb;color:#344154;font-weight:600}
